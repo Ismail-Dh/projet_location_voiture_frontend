@@ -1,0 +1,14 @@
+.diaporama {
+    position: relative;
+    width: 100vw; /* Largeur complète de la fenêtre */
+    height: 100vh; /* Hauteur complète de la fenêtre */
+    overflow: hidden; /* Coupe le contenu débordant */
+  }
+  
+  .diaporama-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Adapte l'image pour couvrir toute la zone sans déformation */
+    transition: opacity 1s ease-in-out; /* Animation fluide pour les transitions */
+  }
+  

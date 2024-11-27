@@ -13,12 +13,25 @@ export function app(): express.Express {
   const indexHtml = join(serverDistFolder, 'index.server.html');
 
   const commonEngine = new CommonEngine();
-
+ 
   server.set('view engine', 'html');
   server.set('views', browserDistFolder);
 
   // Example Express Rest API endpoints
-  // server.get('/api/**', (req, res) => { });
+ //  server.get('/api/**', (req, res) => { });
+ const app = express();
+const TIMEOUT = 60000; // 60 secondes
+
+app.get('*', (req, res) => {
+  res.render('index', { req, res }, (err, html) => {
+    if (err) {
+      console.error(err);
+      res.status(500).send(err.message);
+    } else {
+      res.send(html);
+    }
+  });
+});
   // Serve static files from /browser
   server.get('**', express.static(browserDistFolder, {
     maxAge: '1y',
