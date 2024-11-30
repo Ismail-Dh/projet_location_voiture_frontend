@@ -34,8 +34,29 @@
 
 
 footer {
-  background-color: #0a0b0b; /* Couleur de fond sombre */
+  background-color: #525db2; /* Couleur de fond sombre */
   padding: 20px;
   font-family: Arial, sans-serif;
   box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
 }
+
+.footer-socials {
+  margin-bottom: 20px;
+}
+
+.footer-socials a {
+  margin: 0 10px;
+  display: inline-block;
+}
+
+.social-icon {
+  width: 30px;
+  height: 30px;
+  transition: transform 0.3s ease;
+}
+
+.social-icon:hover {
+  transform: scale(1.1);
+}
+
+

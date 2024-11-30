@@ -1,8 +1,41 @@
-<div >
-    <!-- Section 1: Diaporama -->
-    <section class="diaporama">
-      <img src="assets/image2.jpg" class="diaporama-image" />
-    </section>
-   
-  </div>
-  
+<div>
+  <!-- Section 1: Diaporama -->
+  <section class="diaporama">
+    <img id="diaporamaImage" src="assets/image1.jpg" class="diaporama-image" alt="Diaporama" />
+  </section>
+</div>
+
+<script>
+  // Liste des images
+  const images = [
+    "assets/image1.jpg",
+    "assets/image2.jpg",
+    "assets/image3.jpg"
+  ];
+
+  // Index de l'image actuelle
+  let currentImageIndex = 0;
+
+  // Sélection de l'élément img
+  const diaporamaImage = document.getElementById("diaporamaImage");
+
+  // Fonction pour changer d'image
+  function changeImage() {
+    // Passer à l'image suivante
+    currentImageIndex = (currentImageIndex + 1) % images.length;
+    // Mettre à jour l'image affichée
+    diaporamaImage.src = images[currentImageIndex];
+  }
+
+  // Changer l'image toutes les 3 secondes
+  setInterval(changeImage, 3000);
+</script>
+
+<br><br>
+
+<app-about></app-about>
+
+<br><br>
+<app-car-list></app-car-list>
+<br><br>
+<app-contact></app-contact>

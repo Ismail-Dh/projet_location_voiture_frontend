@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
-
+import {AboutComponent} from '../about/about.component';
+import {CarListComponent} from '../components/car-list/car-list.component';
+import { ContactComponent } from '../components/contact/contact.component';
 @Component({
   selector: 'app-accueil',
   standalone: true,
-  imports: [],
+  imports: [AboutComponent,CarListComponent,ContactComponent],
   templateUrl: './accueil.component.html',
   styleUrl: './accueil.component.scss'
 })

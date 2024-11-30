@@ -1,0 +1,75 @@
+.cars-section {
+    padding: 20px;
+  }
+  
+  .cars-section h2 {
+    text-align: center;
+  }
+  
+  .search-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+  
+  .search-form label {
+    margin-right: 5px;
+  }
+  
+  .search-form input,
+  .search-form select,
+  .search-form button {
+    padding: 8px;
+    font-size: 1em;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .cars-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+  }
+  
+  .car-card {
+    width: 250px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 15px;
+    background-color: #fff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .car-card img {
+    width: 100%;
+    border-radius: 10px;
+    height: 150px;
+    object-fit: cover;
+  }
+  
+  .car-card h3 {
+    margin: 10px 0 5px;
+    font-size: 1.2em;
+  }
+  
+  .car-card p {
+    margin: 5px 0;
+    font-size: 0.9em;
+  }
+  
+  .car-card button {
+    margin-top: 10px;
+    padding: 8px 12px;
+    font-size: 0.9em;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .car-card button:hover {
+    opacity: 0.8;
+  }
+  
