@@ -19,6 +19,7 @@ export class SignupComponent {
       password: '',
       adresse: '',
       numero_tel: '',
+     
     };
   
     constructor(private authService: AuthService) {}

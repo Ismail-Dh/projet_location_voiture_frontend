@@ -1,0 +1,44 @@
+<!-- list-voitures.component.html -->
+<div class="container">
+    <h2>Liste des Voitures</h2>
+  
+    <!-- Bouton pour ajouter une nouvelle voiture -->
+    <button (click)="openAddCarForm()" class="btn-add-car">Ajouter une Voiture</button>
+  
+    <!-- Tableau affichant les voitures -->
+    <table class="cars-table">
+      <thead>
+        <tr>
+          <th>Marque</th>
+          <th>Modèle</th>
+          <th>Année</th>
+          <th>Type</th>
+          <th>Tarif (MAD)</th>
+          <th>État</th>
+          <th>Image</th>
+          <th>Description</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let voiture of voitures">
+          <td>{{ voiture.marque }}</td>
+          <td>{{ voiture.modele }}</td>
+          <td>{{ voiture.annee }}</td>
+          <td>{{ voiture.type }}</td>
+          <td>{{ voiture.tarif }} </td>
+          <td>{{ voiture.etat }}</td>
+          <td>
+            <img [src]="voiture.image" alt="Image de {{ voiture.marque }}" class="car-image" />
+          </td>
+          <td>{{ voiture.description }}</td>
+          <td>
+            <!-- Boutons pour modifier et supprimer -->
+            <button (click)="editCar(voiture)" class="btn-edit">Modifier</button>
+            <button (click)="deleteCar(voiture.id)" class="btn-delete">Supprimer</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  

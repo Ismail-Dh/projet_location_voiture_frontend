@@ -2,6 +2,7 @@
   display: flex; /* Aligner les éléments horizontalement */
   align-items: center; /* Centrage vertical */
   flex-wrap: wrap; /* Permet au contenu de se réorganiser si nécessaire */
+ 
 }
 
 .footer-logo {
@@ -30,6 +31,7 @@
   left: 155px;
   font-size: 12px; /* Taille du texte pour "copyright" */
   color: #ffffff; /* Couleur blanche */
+ 
 }
 
 
@@ -38,15 +40,19 @@ footer {
   padding: 20px;
   font-family: Arial, sans-serif;
   box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+  margin-top: 0px;
 }
 
 .footer-socials {
   margin-bottom: 20px;
+  display: flex;
+
 }
 
 .footer-socials a {
-  margin: 0 10px;
-  display: inline-block;
+  margin: 0 10px ;
+  display:inline-block;
+  
 }
 
 .social-icon {
