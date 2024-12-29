@@ -1,4 +1,4 @@
-import { Component,EventEmitter, Output } from '@angular/core';
+import {Component,EventEmitter, Output } from '@angular/core';
 import { AuthService } from '../../../../auth/services/auth/auth.service';
 import { Router } from '@angular/router';
 
@@ -10,8 +10,17 @@ import { Router } from '@angular/router';
   styleUrl: './sidebar.component.scss'
 })
 export class SidebarComponent {
-  activeMenuIndex: number = 0;
+activeMenuIndex: number = 0;
+client : any;
  constructor(private authService: AuthService, private router: Router) {}
+   
+ ngOnInit(): void {
+  // S'abonner au user$ pour recevoir les informations utilisateur actuelles
+  this.authService.user$.subscribe((data) => {
+    this.client= { ...data }; // Copier les données dans adminInfo
+   
+  });
+}
   onMenuClick(index: number): void {
     this.activeMenuIndex = index;
   }

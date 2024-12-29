@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { CarService, Car } from '../../../app/services/car.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router'; // Importez RouterModule
+import { Router, RouterModule } from '@angular/router'; // Importez RouterModule
+import { AuthService } from '../../auth/services/auth/auth.service';
 
 @Component({
   selector: 'app-car-list',
@@ -22,15 +23,22 @@ export class CarListComponent implements OnInit {
     tarif: null,
   };
 
-  constructor(private carService: CarService) {}
-
+  constructor(private carService: CarService,
+    private authService: AuthService, // Injectez AuthService
+    private router: Router // Injectez Router pour naviguer
+  ) {}
+  isAuthenticated = false; // Indicateur d'authentification
   ngOnInit(): void {
     // Charger toutes les voitures
     this.carService.getCars().subscribe((data) => {
       this.cars = data;
       this.filteredCars = data;
+    }); 
+    this.authService.user$.subscribe((user) => {
+      this.isAuthenticated = !!user; // Est vrai si l'utilisateur est connecté
     });
   }
+  
 
   // Rechercher des voitures
   searchCars(): void {
@@ -49,9 +57,14 @@ export class CarListComponent implements OnInit {
   viewDetails(car: Car): void {
     alert(`Détails de la voiture : ${car.marque} ${car.modele}`);
   }
+   // Vérifier si l'utilisateur est authentifié
   
   reserveCar(car: Car): void {
-    alert(`Réservation effectuée pour : ${car.marque} ${car.modele}`);
+    if (this.isAuthenticated) {
+      this.router.navigate(['/reservation-form', car.id]); // Naviguer vers le formulaire de réservation
+    } else {
+      this.router.navigate(['/login']); // Rediriger vers la page de connexion
+    }
   }
   
 }

@@ -41,7 +41,7 @@
         <p>Etat : {{ car.etat }} </p>
         <button [routerLink]="['/details', car.id]">Détails</button>
 
-        <button [routerLink]="['/login']">Réserver</button>
+        <button (click)="reserveCar(car)">Réserver</button>
       </div>
     </div>
   </div>

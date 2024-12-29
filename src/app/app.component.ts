@@ -13,13 +13,14 @@ import { CommonModule } from '@angular/common';
 export class AppComponent {
   title = 'voiture_location_angular';
   showLayout: boolean = true;
-
+ 
   constructor(private router: Router) {
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         // Masquer le header et le footer uniquement sur certaines routes
-        this.showLayout = !event.url.includes('/client-dashboard');
-        this.showLayout = !event.url.includes('/admin-dashboard');
+       // this.showLayout = !event.url.includes('/client-dashboard');
+        //this.showLayout = !event.url.includes('/admin-dashboard');
+        this.showLayout = !(event.url.includes('/client-dashboard') || event.url.includes('/admin-dashboard'));
       }
     });
   }

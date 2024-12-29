@@ -13,12 +13,16 @@ import { RentalConditionsComponent } from './components/rental-conditions/rental
 import { ContactComponent } from './components/contact/contact.component';
 import { ListClientsComponent } from './modules/admin/components/list-clients/list-clients.component';
 import { ListCarsComponent } from './modules/admin/components/list-cars/list-cars.component';
+import { ReservationFormComponent } from './modules/client/components/reservation-form/reservation-form.component';
+import { ConfirmationComponent } from './modules/client/components/confirmation/confirmation.component';
+import { PaymentComponent } from './modules/client/components/payment/payment.component';
 export const routes: Routes = [
  // { path: '', redirectTo: '/accueil', pathMatch: 'full' }, 
  { path: '', redirectTo: '/accueil', pathMatch: 'full' }, // Redirection par défaut
   {path:"signup",component: SignupComponent},
   {path:"login",component: LoginComponent},
   {path:"accueil",component:AccueilComponent},
+ 
   {path: 'about',component: AboutComponent},
   {path:'reservation',component:CarListComponent},
   { path: 'details/:id', component: CarDetailComponent },
@@ -28,5 +32,8 @@ export const routes: Routes = [
   { path: 'client-dashboard', component: ClientDashboardComponent },
   { path: 'list-client', component: ListClientsComponent  },
   { path: 'list-car', component: ListCarsComponent  },
+  { path: 'reservation-form/:id', component: ReservationFormComponent },
+  { path: 'confirmer/:id', component: ConfirmationComponent },
+  { path: 'payment/:id', component: PaymentComponent },
 
 ];

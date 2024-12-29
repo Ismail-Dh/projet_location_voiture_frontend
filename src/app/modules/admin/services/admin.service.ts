@@ -15,6 +15,7 @@ export class AdminService {
   private apiUrl2 = 'http://localhost:8080/api/factures/somme';
   private apiUrl3 = 'http://localhost:8080/api/users/tous';
   private apiUrl4 = 'http://localhost:8080/api/cars/tous'; 
+  private apiUrl4_1 = 'http://localhost:8080/api/cars';
   private apiUrl5 = 'http://localhost:8080/api/reservations/toutes';
   private apiUrl6 = 'http://localhost:8080/api/factures/tous'; 
   constructor(private http: HttpClient) { }
@@ -45,12 +46,12 @@ export class AdminService {
 
   // Supprimer une voiture par ID
   deleteVoiture(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl4}/${id}`);
+    return this.http.delete<void>(`${this.apiUrl4_1}/supprimer/${id}`);
   }
 
   // Ajouter une nouvelle voiture
-  addVoiture(voiture: VoitureModele): Observable<VoitureModele> {
-    return this.http.post<VoitureModele>(this.apiUrl4, voiture);
+  addVoiture(formData: FormData): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl4_1}/creer`, formData);
   }
 
   // Modifier une voiture existante

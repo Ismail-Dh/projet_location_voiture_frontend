@@ -12,6 +12,7 @@ export class AuthService {
   public user$ = this.userSubject.asObservable();
   private apiUrl = 'http://localhost:8080/api/auth'; // URL de votre API Spring Boot
 private apiUrl1 = 'http://localhost:8080/api/admin';
+private apiUrl2 = 'http://localhost:8080/api/users';
 constructor(private http: HttpClient) {
   // Vérifier si localStorage est disponible avant d'y accéder
   if (typeof window !== 'undefined' && window.localStorage) {
@@ -52,6 +53,20 @@ getUserInfo(): any {
 // Mettre à jour les informations utilisateur
 updateUserInfo(updatedUser: any): Observable<any> {
   return this.http.put(`${this.apiUrl1}/modifier/${updatedUser.id}`, updatedUser).pipe(
+    tap((response: any) => {
+      // Mettre à jour le BehaviorSubject avec les nouvelles informations
+      this.userSubject.next(response);
+      
+      // Vérifier si localStorage est disponible avant de stocker les données
+      if (typeof window !== 'undefined' && window.localStorage) {
+        localStorage.setItem('userInfo', JSON.stringify(response));
+      }
+    }),
+    catchError(this.handleError) // Gestion des erreurs HTTP
+  );
+}
+updateClientInfo(updatedUser: any): Observable<any> {
+  return this.http.put(`${this.apiUrl2}/modifier/${updatedUser.id}`, updatedUser).pipe(
     tap((response: any) => {
       // Mettre à jour le BehaviorSubject avec les nouvelles informations
       this.userSubject.next(response);

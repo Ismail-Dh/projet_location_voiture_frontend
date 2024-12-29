@@ -32,7 +32,7 @@ export class LoginComponent {
         if (response.role === 'Admin') {
           this.router.navigate(['/admin-dashboard']);
         } else if (response.role === 'Client') {
-          this.router.navigate(['/client-dashboard']);
+          this.router.navigate(['']);
         } else {
           this.errorMessage = 'Rôle utilisateur inconnu.';
         }
