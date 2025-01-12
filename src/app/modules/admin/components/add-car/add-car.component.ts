@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import { Component,EventEmitter,Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { VoitureModele } from '../../modele/voiture.modele.model';
 import { AdminService } from '../../services/admin.service';
 import { ListCarsComponent } from '../list-cars/list-cars.component';
+
 
 @Component({
   selector: 'app-add-car',
@@ -14,6 +15,7 @@ import { ListCarsComponent } from '../list-cars/list-cars.component';
   styleUrl: './add-car.component.scss'
 })
 export class AddCarComponent {
+  @Output() carAdded = new EventEmitter<void>();
   car : VoitureModele={
     id: 0,
     marque: '',
@@ -52,6 +54,7 @@ export class AddCarComponent {
       this.adminService.addVoiture(formData).subscribe({
         next: (response) => {
           console.log('Voiture ajoutée avec succès', response);
+          this.carAdded.emit(); 
         },
         error: (err) => {
           console.error('Erreur lors de l’ajout de la voiture :', err);

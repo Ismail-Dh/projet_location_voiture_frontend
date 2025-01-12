@@ -21,6 +21,7 @@ export interface Car {
 export class CarService {
   private apiUrl = 'http://localhost:8080/api/cars/tous'; 
   private apiUrl1='http://localhost:8080/api/cars/detail';
+  private apiUrl2 = 'http://localhost:8080/api/cars';
   constructor(private http: HttpClient) {}
 
   // Récupérer toutes les voitures
@@ -30,7 +31,7 @@ export class CarService {
 
   // Rechercher des voitures
   searchCars(filters: any): Observable<Car[]> {
-    return this.http.get<Car[]>(`${this.apiUrl}/search`, { params: filters });
+    return this.http.get<Car[]>(`${this.apiUrl2}/search`, { params: filters });
   }
 
   getCarById(id: number): Observable<Car> {

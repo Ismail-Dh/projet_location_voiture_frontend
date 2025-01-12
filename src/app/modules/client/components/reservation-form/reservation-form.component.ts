@@ -69,8 +69,16 @@ export class ReservationFormComponent implements OnInit {
           this.router.navigate(['/confirmer',response.id_reservation]); // Redirection après succès
         },
         error: (error) => {
-          console.error('Erreur lors de la réservation :', error);
-          this.errorMessage = 'Une erreur est survenue lors de la réservation.';
+          // Vérifiez le type d'erreur retournée
+          console.log(error)
+          if (error.status === 400 && error.error.message) {
+            // Affiche le message d'erreur retourné par le backend
+            this.errorMessage = error.error.message;
+          } else {
+            // Message générique pour les autres erreurs
+            this.errorMessage = 'Une erreur est survenue lors de la réservation.';
+          }
+          alert(this.errorMessage); // Affiche l'erreur à l'utilisateur
         },
       });
     } else {

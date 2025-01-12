@@ -32,11 +32,7 @@ export class ListPaiementComponent implements OnInit {
     );
   }
 
-  // Modifier un paiement
-  editPayment(paiement: PaiementModele): void {
-    console.log('Modification du paiement:', paiement);
-    // Logique pour modifier un paiement
-  }
+ 
 
   // Supprimer un paiement
   deletePayment(id: number): void {

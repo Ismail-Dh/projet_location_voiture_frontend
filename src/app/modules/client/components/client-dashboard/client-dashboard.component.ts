@@ -5,10 +5,12 @@ import{SidebarComponent} from '../sidebar/sidebar.component';
 import { ClientService } from '../../service/client.service';
 import { AuthService } from '../../../../auth/services/auth/auth.service';
 import { ClientDetailComponent } from '../client-detail/client-detail.component';
+import { MesReservationsComponent } from '../mes-reservations/mes-reservations.component';
+import { MesPaiementComponent } from '../mes-paiement/mes-paiement.component';
 @Component({
   selector: 'app-client-dashboard',
   standalone: true,
-  imports: [CommonModule ,NavbarComponent,SidebarComponent,ClientDetailComponent],
+  imports: [CommonModule ,NavbarComponent,SidebarComponent,ClientDetailComponent,MesReservationsComponent,MesPaiementComponent],
   templateUrl: './client-dashboard.component.html',
   styleUrl: './client-dashboard.component.scss'
 })

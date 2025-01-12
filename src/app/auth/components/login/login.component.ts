@@ -24,14 +24,16 @@ export class LoginComponent {
     this.authService.loginUser(credentials).subscribe({
       next: (response) => {
         console.log('Connexion réussie :', response);
-        localStorage.setItem('token', response.token);
+        
         // Stocker le token JWT dans localStorage (optionnel)
         localStorage.setItem('token', response.token);
 
         // Rediriger en fonction du rôle
         if (response.role === 'Admin') {
+         
           this.router.navigate(['/admin-dashboard']);
         } else if (response.role === 'Client') {
+         
           this.router.navigate(['']);
         } else {
           this.errorMessage = 'Rôle utilisateur inconnu.';

@@ -1,8 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { RouterOutlet , Router,NavigationEnd} from '@angular/router';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { CommonModule } from '@angular/common';
+
+
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -10,11 +12,16 @@ import { CommonModule } from '@angular/common';
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
+  
+  
+  ngOnInit() {
+   
+  }
   title = 'voiture_location_angular';
   showLayout: boolean = true;
  
-  constructor(private router: Router) {
+  constructor(private router: Router ) {
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         // Masquer le header et le footer uniquement sur certaines routes

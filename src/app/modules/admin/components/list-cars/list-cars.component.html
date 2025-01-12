@@ -1,4 +1,4 @@
-<div *ngIf="!showAddCarModal">
+<div *ngIf="!showAddCarModal && !isEditing " >
   <div class="container">
     <h2>Liste des Voitures</h2>
 
@@ -34,7 +34,7 @@
           <td>{{ voiture.description }}</td>
           <td>
             <!-- Boutons pour modifier et supprimer -->
-            <button class="btn-edit">Modifier</button>
+            <button class="btn-edit" (click)="editCar(voiture)">Modifier</button>
             <button (click)="deleteCar(voiture.id)" class="btn-delete">Supprimer</button>
           </td>
         </tr>
@@ -58,10 +58,57 @@
         <button type="button" class="btn-close" (click)="closeModal()" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <app-add-car></app-add-car> <!-- Chargement du formulaire d'ajout -->
+        <app-add-car (carAdded)="onCarAdded()"></app-add-car> <!-- Chargement du formulaire d'ajout -->
       </div>
     </div>
   </div>
 </div>
+
+<!--formulaire de modification-->
+<div *ngIf="isEditing" class="update-dates-form">
+  <h3>Modifier la voiture</h3>
+  <form (ngSubmit)="onSubmitUpdate()">
+    <div class="form-group">
+      <label>Marque</label>
+      <input type="text" class="form-control" [(ngModel)]="selectedCar.marque" name="marque" required />
+    </div>
+
+    <div class="form-group">
+      <label>Modèle</label>
+      <input type="text" class="form-control" [(ngModel)]="selectedCar.modele" name="modele" required />
+    </div>
+
+    <div class="form-group">
+      <label>Année</label>
+      <input type="number" class="form-control" [(ngModel)]="selectedCar.annee" name="annee" required />
+    </div>
+
+    <div class="form-group">
+      <label>Type</label>
+      <input type="text" class="form-control" [(ngModel)]="selectedCar.type" name="type" required />
+    </div>
+
+    <div class="form-group">
+      <label>Tarif (MAD)</label>
+      <input type="number" class="form-control" [(ngModel)]="selectedCar.tarif" name="tarif" required />
+    </div>
+
+    <div class="form-group">
+      <label>État</label>
+      <input type="text" class="form-control" [(ngModel)]="selectedCar.etat" name="etat" required />
+    </div>
+
+    <div class="form-group">
+      <label>Description</label>
+      <textarea class="form-control" [(ngModel)]="selectedCar.description" name="description" required></textarea>
+    </div>
+
+    <div class="form-actions">
+      <button type="submit" class="btn btn-success">Enregistrer</button>
+      <button type="button" class="btn btn-secondary" (click)="cancelEditing()">Annuler</button>
+    </div>
+  </form>
+</div>
+
 
   

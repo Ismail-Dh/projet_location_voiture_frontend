@@ -16,11 +16,10 @@ export class CarListComponent implements OnInit {
   cars: Car[] = [];
   filteredCars: Car[] = [];
   searchFilters = {
-    date: '',
+    date: null,
     type: '',
-    marque: '',
-    etat:'',
-    tarif: null,
+    marque: null,
+    tarif:'',
   };
 
   constructor(private carService: CarService,
@@ -43,12 +42,13 @@ export class CarListComponent implements OnInit {
   // Rechercher des voitures
   searchCars(): void {
     const filters = {
+      date: this.searchFilters.date,
       type: this.searchFilters.type,
       marque: this.searchFilters.marque,
       tarif: this.searchFilters.tarif,
-      etat: this.searchFilters.etat,
+      
     };
-
+     console.log(filters)
     this.carService.searchCars(filters).subscribe((data) => {
       this.filteredCars = data;
     });

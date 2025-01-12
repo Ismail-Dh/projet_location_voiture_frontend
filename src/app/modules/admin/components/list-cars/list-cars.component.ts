@@ -3,17 +3,21 @@ import { CommonModule } from '@angular/common';
 import { AdminService } from '../../services/admin.service';
 import { VoitureModele } from '../../modele/voiture.modele.model';
 import { AddCarComponent } from '../add-car/add-car.component';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-list-cars',
   standalone: true,
-  imports: [CommonModule,AddCarComponent ],
+  imports: [CommonModule,AddCarComponent ,FormsModule],
   templateUrl: './list-cars.component.html',
   styleUrl: './list-cars.component.scss'
 })
 export class ListCarsComponent implements OnInit {
   voitures: VoitureModele[] = []; // Liste des voitures
   showAddCarModal: boolean = false; //
+  selectedCar: any = null;
+  
+  isEditing: boolean = false;
   constructor(private voitureService: AdminService) {}
 
   // Initialisation : Charger les voitures depuis le backend
@@ -32,18 +36,14 @@ export class ListCarsComponent implements OnInit {
       }
     );
   }
+  onCarAdded() {
+    // Rechargez la liste des voitures (si nécessaire)
+    this.getVoitures();
 
- /* // Ouvre le formulaire d'ajout de voiture
-  openAddCarForm(): void {
-    console.log('Formulaire d’ajout de voiture ouvert');
-    // Logique supplémentaire à implémenter (ex : afficher un modal)
+    // Fermez la modale
+    this.closeModal();
   }
-
-  // Modifier une voiture existante
-  editCar(voiture: VoitureModele): void {
-    console.log('Modification de la voiture:', voiture);
-    // Logique supplémentaire à implémenter (ex : remplir un formulaire)
-  }*/
+ 
     openModal(): void {
       this.showAddCarModal = true;
     }
@@ -72,6 +72,44 @@ deleteCar(id: number): void {
     console.log('Suppression annulée');
   }
 }
+
+// Méthode pour activer le mode édition
+editCar(car: any): void {
+  this.isEditing = true;
+  
+  this.selectedCar = { ...car }; // Copier les données de la voiture sélectionnée
+}
+
+onSubmitUpdate(): void {
+  // Enregistrer les modifications
+  this.voitureService.updateVoiture(this.selectedCar).subscribe(
+    (response) => {
+      // Mise à jour de la liste des voitures après modification
+      if (response.id) {
+        this.voitures = this.voitures.map(voiture =>
+          voiture.id === response.id ? response : voiture
+        );
+        console.log('Voiture modifiée avec succès');
+      }
+    },
+    (error) => {
+      console.error('Erreur lors de la modification de la voiture:', error);
+    }
+  );
+  
+  // Sortir du mode édition et réinitialiser la voiture sélectionnée
+  this.isEditing = false;
+  this.selectedCar = null;
+}
+
+
+
+// Méthode pour annuler l'édition
+cancelEditing(): void {
+  this.isEditing = false;
+  this.selectedCar = null;
+}
+
 
 
 }

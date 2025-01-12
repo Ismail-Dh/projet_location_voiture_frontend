@@ -61,7 +61,7 @@ enregistrer(): void {
   
     // Logique pour appeler le service d'API pour changer le mot de passe
     this.authService
-      .changePassword(this.passwordForm)
+      .changePasswordClient(this.passwordForm)
       .subscribe(
         (response) => {
           this.message1 = 'Mot de passe changé avec succès.';

@@ -88,6 +88,15 @@ changePassword( data :{ancienMotDePasse: string; nouveauMotDePasse: string} ): O
     catchError(this.handleError)
   );
 }
+changePasswordClient( data :{ancienMotDePasse: string; nouveauMotDePasse: string} ): Observable<any> {
+  const userId = this.getUserInfo()?.id; // Récupérer l'ID utilisateur depuis les données utilisateur
+  const params = new HttpParams()
+    .set('ancienMotDePasse', data.ancienMotDePasse)
+    .set('nouveauMotDePasse', data.nouveauMotDePasse);
+  return this.http.put(`${this.apiUrl2}/utilisateur/${userId}/changer-mot-de-passe`,  null, { params }).pipe(
+    catchError(this.handleError)
+  );
+}
 
 
 

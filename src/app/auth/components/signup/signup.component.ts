@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup,ReactiveFormsModule, FormsModule, Validators } f
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth/auth.service';
 import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-signup',
   standalone: true,
@@ -22,13 +23,14 @@ export class SignupComponent {
      
     };
   
-    constructor(private authService: AuthService) {}
+    constructor(private authService: AuthService,private router: Router) {}
   
     onSubmit() {
       this.authService.registerUser(this.user).subscribe({
         next: (response : any) => {
           console.log('Utilisateur enregistré avec succès :', response);
           alert('Inscription réussie!');
+          this.router.navigate(['/login']);
         },
         error: (err : any) => {
           console.error('Erreur lors de l\'inscription :', err);

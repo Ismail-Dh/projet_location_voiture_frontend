@@ -2,6 +2,7 @@ import { Component ,OnInit} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AdminService } from '../../services/admin.service';
 import { ReservationModele } from '../../modele/reservation.modele.model';
+
 @Component({
   selector: 'app-list-reservations',
   standalone: true,
@@ -31,11 +32,7 @@ export class ListReservationsComponent implements OnInit {
     );
   }
 
-  // Modifier une réservation
-  editReservation(reservation: ReservationModele): void {
-    console.log('Modification de la réservation:', reservation);
-    // Logique supplémentaire pour afficher un formulaire de modification
-  }
+
 
   // Supprimer une réservation
   deleteReservation(id: number): void {
@@ -49,4 +46,12 @@ export class ListReservationsComponent implements OnInit {
       }
     );
   }
+
+  generateContract(id: number): void {
+    const url = `http://localhost:8080/api/contrats/${id}/generate-pdf`;
+      window.open(url, '_blank');
+}
+
+
+
 }

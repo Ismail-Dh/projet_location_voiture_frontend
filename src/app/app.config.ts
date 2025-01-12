@@ -10,6 +10,8 @@ import { provideHttpClient, withFetch } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router'; // Importez RouterModule
+
+
 registerLocaleData(en);
 
 export const appConfig: ApplicationConfig = {
@@ -20,7 +22,7 @@ export const appConfig: ApplicationConfig = {
     provideClientHydration(),
     provideNzI18n(en_US), // Configuration de ng-zorro-antd
     provideAnimationsAsync(), // Animation asynchrone
-    importProvidersFrom(FormsModule, ReactiveFormsModule, HttpClientModule,RouterModule) // Importation des modules Angular
+    importProvidersFrom(FormsModule, ReactiveFormsModule, HttpClientModule,RouterModule), provideAnimationsAsync() // Importation des modules Angular
   ]
 };
 

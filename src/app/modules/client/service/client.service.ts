@@ -14,6 +14,7 @@ export class ClientService {
   private apiUrl = 'http://localhost:8080/api/reservations/confirmer'; 
   private apiUrl2 = 'http://localhost:8080/api/contrats'; 
   private apiUrl1 = 'http://localhost:8080/api/reservations';
+  private apiUrl3 = 'http://localhost:8080/api/factures';
   reservation : ReservationModele | null = null;
   constructor(private http: HttpClient) { }
   reserveCar(reservationData: {
@@ -33,7 +34,7 @@ export class ClientService {
     this.http.post(`${this.apiUrl2}/${id}/generate-pdf-with-signature`,signature)
     return this.http.put(`${this.apiUrl}/${id}`,null);
   }*/
-    confirmReservation(id: number, signatureData: string): Observable<any> {
+   /* confirmReservation(id: number, signatureData: string): Observable<any> {
       // Créer un objet FormData pour inclure la signature en tant que fichier
       const formData = new FormData();
       const signatureBlob = this.dataURLToBlob(signatureData);
@@ -43,7 +44,7 @@ export class ClientService {
       return this.http.post(`${this.apiUrl2}/${id}`, null).pipe(
         switchMap((response: any) => {
           const idContrat = response.idContrat; // Extraire l'ID du contrat de la réponse
-    
+              this.http.post(`${this.apiUrl2}/stockerSignuature/${idContrat}`,formData)
           // Étape 2 : Appeler l'API pour générer le PDF avec la signature
           return this.http.post(`${this.apiUrl2}/${idContrat}/generate-pdf-with-signature`, formData, {
             responseType: 'blob' // Important : pour recevoir un fichier binaire
@@ -70,12 +71,54 @@ export class ClientService {
           );
         })
       );
+    }*/
+    
+      confirmReservation(id: number, signatureData: string): Observable<any> {
+        const formData = new FormData();
+        const signatureBlob = this.dataURLToBlob(signatureData);
+        formData.append('signature', signatureBlob, 'signature.png');
+    
+        return this.http.post(`${this.apiUrl2}/${id}`, null).pipe(
+            switchMap((response: any) => {
+                const idContrat = response.idContrat;
+                                                    
+                // Étape 1 : Stocker la signature dans la base de données
+                return this.http.post(`${this.apiUrl2}/stockerSignuature/${idContrat}`, formData).pipe(
+                    switchMap(() => {
+                        // Étape 2 : Générer le PDF
+                        return this.http.post(`${this.apiUrl2}/${idContrat}/generate-pdf-with-signature`, formData, {
+                            responseType: 'blob'
+                        }).pipe(
+                            tap((pdfResponse: Blob) => {
+                                const url = window.URL.createObjectURL(pdfResponse);
+                                const a = document.createElement('a');
+                                a.href = url;
+                                a.download = `contrat_${idContrat}.pdf`;
+                                a.click();
+                                window.URL.revokeObjectURL(url);
+                            })
+                        );
+                        
+                    }),
+                    switchMap(() => {
+                      // Étape 3 : Mettre à jour d'autres informations si nécessaire
+                      return this.http.put(`${this.apiUrl}/${id}`, null);
+                    }),
+                   
+                );
+              
+            }),
+            
+            catchError((error) => {
+                console.error('Erreur lors de la confirmation de la réservation:', error);
+                return throwError('Une erreur est survenue lors de la confirmation de la réservation.');
+            })
+        );
     }
     
-   
     
     // Utilitaire pour convertir une DataURL (base64) en Blob
-    private dataURLToBlob(dataURL: string): Blob {
+ /*   private dataURLToBlob(dataURL: string): Blob {
       const byteString = atob(dataURL.split(',')[1]);
       const mimeString = dataURL.split(',')[0].split(':')[1].split(';')[0];
       const buffer = new ArrayBuffer(byteString.length);
@@ -86,8 +129,16 @@ export class ClientService {
       }
     
       return new Blob([buffer], { type: mimeString });
-    }
-    
+    }*/
+    // Méthode utilitaire pour convertir Base64 en Blob
+dataURLToBlob(dataURL: string): Blob {
+  const binaryString = window.atob(dataURL.split(',')[1]);
+  const array = [];
+  for (let i = 0; i < binaryString.length; i++) {
+    array.push(binaryString.charCodeAt(i));
+  }
+  return new Blob([new Uint8Array(array)], { type: 'image/png' });
+}
   
   processPayment(num_compte: string, id_reservation: number): Observable<any> {
     const payload = { num_compte, id_reservation };
@@ -106,5 +157,21 @@ export class ClientService {
     }
     getNombreReservationsStatu(id:  number |null = null, statu: String): Observable<number> {
       return this.http.get<number>(`${this.apiUrl1}/countReservationClientStatu/${id}/${statu}`);
+    }
+
+    getReservations(id : number) :Observable<ReservationModele[]> {
+      return this.http.get<ReservationModele[]>(`${this.apiUrl1}/tout/Client/${id}`);
+    }
+
+    getPaiements(id: number):Observable<PaiementModele[]> {
+      return this.http.get<PaiementModele[]>(`${this.apiUrl3}/tous/client/${id}`);
+    }
+
+    annulerReservation(id:number):Observable<any> {
+      return this.http.put(`${this.apiUrl1}/annuler/${id}`,null);
+    }
+
+    modifierReservation(reservation:any):Observable<ReservationModele> {
+      return this.http.put<ReservationModele>(`${this.apiUrl1}/modifier/${reservation.id_reservation}`,reservation);
     }
 }

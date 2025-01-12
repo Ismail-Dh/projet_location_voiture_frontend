@@ -9,17 +9,23 @@ import { ListCarsComponent } from '..//list-cars/list-cars.component';
 import { ListReservationsComponent } from '../list-reservations/list-reservations.component';
 import { ListPaiementComponent } from '../list-paiement/list-paiement.component';
 import { AdminDetailComponent } from '../admin-detail/admin-detail.component';
+import { StatistiqueComponent } from '../statistique/statistique.component';
+import { RetourComponent } from '../retour/retour.component';
 
 @Component({
   selector: 'app-admin-dashboard',
   standalone: true,
-  imports: [ NavbarComponent,SidebarComponent,CommonModule,ListClientsComponent,ListCarsComponent,ListReservationsComponent,ListPaiementComponent,AdminDetailComponent],
+  imports: [ NavbarComponent,SidebarComponent,CommonModule,
+    ListClientsComponent,ListCarsComponent,
+    ListReservationsComponent,ListPaiementComponent,
+    AdminDetailComponent,StatistiqueComponent,RetourComponent],
   templateUrl: './admin-dashboard.component.html',
   styleUrl: './admin-dashboard.component.scss'
 })
 export class AdminDashboardComponent implements OnInit {
   nombreClients: number = 0;
   nombreReservations: number = 0;
+  nombrevoitures: number = 0;
   chaiffreAffaire: number = 0.0;
   constructor(private clientService: AdminService) { }
 
@@ -27,12 +33,19 @@ export class AdminDashboardComponent implements OnInit {
     this.loadNombreClients();
     this.loadNombreReservations();
     this.loadChiffreAffaire();
+    this.loadNombrevoitures();
   }
 
   loadNombreClients(): void {
     this.clientService.getNombreClients().subscribe({
       next: (data) => this.nombreClients = data,
       error: (err) => console.error('Erreur lors du chargement du nombre de clients:', err)
+    });
+  }
+  loadNombrevoitures(): void {
+    this.clientService.getNombreClients().subscribe({
+      next: (data) => this.nombrevoitures = data,
+      error: (err) => console.error('Erreur lors du chargement du nombre de voiture:', err)
     });
   }
   loadNombreReservations(): void {

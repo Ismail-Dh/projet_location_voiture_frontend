@@ -27,11 +27,7 @@ export class ListClientsComponent implements OnInit {
     });
   }
 
-  // Méthode pour ouvrir le formulaire d'ajout de client
-  openAddClientForm(): void {
-    console.log('Ouvrir le formulaire d\'ajout d\'un client');
-    // Vous pouvez rediriger vers un formulaire ou afficher un modal pour ajouter un client
-  }
+ 
 
   // Méthode pour modifier un client
   editClient(client: any): void {
@@ -41,8 +37,22 @@ export class ListClientsComponent implements OnInit {
 
   // Méthode pour supprimer un client
   deleteClient(clientId: number): void {
-    console.log('Supprimer le client avec l\'ID:', clientId);
-    // Vous pouvez supprimer le client via un appel API et mettre à jour la liste des clients
-    this.clients = this.clients.filter(client => client.id !== clientId);
+  
+    const confirmation = confirm('Êtes-vous sûr de vouloir supprimer ce client ?');
+
+    if (confirmation) {
+      this.clientService.deleteClient(clientId).subscribe(
+        () => {
+          // Mise à jour de la liste des voitures après suppression
+          this.clients = this.clients.filter(client => client.id !== clientId);
+          console.log('Voiture supprimée avec succès');
+        },
+        (error) => {
+          console.error('Erreur lors de la suppression du client:', error);
+        }
+      );
+    } else {
+      console.log('Suppression annulée');
+    }
   }
 }

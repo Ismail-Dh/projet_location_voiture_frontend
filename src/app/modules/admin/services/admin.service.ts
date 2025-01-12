@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient,HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import {ClientModele} from '../modele/client.modele.model';
 import {VoitureModele} from '../modele/voiture.modele.model';
@@ -18,9 +18,13 @@ export class AdminService {
   private apiUrl4_1 = 'http://localhost:8080/api/cars';
   private apiUrl5 = 'http://localhost:8080/api/reservations/toutes';
   private apiUrl6 = 'http://localhost:8080/api/factures/tous'; 
+  private apiUrl7 = 'http://localhost:8080/api/users';
   constructor(private http: HttpClient) { }
 
   getNombreClients(): Observable<number> {
+    return this.http.get<number>(this.apiUrl4_1);
+  }
+  getNombreVoitures(): Observable<number> {
     return this.http.get<number>(this.apiUrl);
   }
   getNombreReservations(): Observable<number> {
@@ -35,6 +39,9 @@ export class AdminService {
 
   getClients(): Observable<any[]> {
     return this.http.get<ClientModele[]>(this.apiUrl3);
+  }
+  deleteClient(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl7}/supprimer/${id}`);
   }
 
                              //////////// les Voitures ///////////////
@@ -56,7 +63,7 @@ export class AdminService {
 
   // Modifier une voiture existante
   updateVoiture(voiture: VoitureModele): Observable<VoitureModele> {
-    return this.http.put<VoitureModele>(`${this.apiUrl4}/${voiture.id}`, voiture);
+    return this.http.put<VoitureModele>(`${this.apiUrl4_1}/modifier/${voiture.id}`, voiture);
   }
 
                              /////////// les Reservations /////////////////
@@ -102,4 +109,53 @@ updatePaiement(paiement: PaiementModele): Observable<PaiementModele> {
   return this.http.put<PaiementModele>(`${this.apiUrl6}/${paiement.id_facture}`, paiement);
 }
 
+//////////////////// statistique//////////////////////////////////////
+
+private apiUrl8 = 'http://localhost:8080/api/reports'; 
+
+  
+  // Récupérer les réservations pour une période donnée
+  getReservations1(startDate: string, endDate: string): Observable<any[]> {
+    const params = new HttpParams().set('startDate', startDate).set('endDate', endDate);
+    return this.http.get<any[]>(`${this.apiUrl8}/reservations`, { params });
+  }
+
+  // Récupérer les factures pour une période donnée
+  getFactures(startDate: string, endDate: string): Observable<any[]> {
+    const params = new HttpParams().set('startDate', startDate).set('endDate', endDate);
+    return this.http.get<any[]>(`${this.apiUrl8}/factures`, { params });
+  }
+
+  // Récupérer le revenu total pour une période donnée
+  getRevenue(startDate: string, endDate: string): Observable<number> {
+    const params = new HttpParams().set('startDate', startDate).set('endDate', endDate);
+    return this.http.get<number>(`${this.apiUrl8}/revenue`, { params });
+  }
+
+  getReports(startDate: string, endDate: string): Observable<any> {
+    const params = new HttpParams().set('startDate', startDate).set('endDate', endDate);
+    return this.http.get<any>(`${this.apiUrl8}`, { params });
+  }
+
+  //////////////////////////////////Les Retours///////////////////////////////
+  private apiUrl9 = 'http://localhost:8080/api/retours/tous';
+  private apiUrl10 = 'http://localhost:8080/api/contrats';
+  private apiUrl11 = 'http://localhost:8080/api/retours';
+  private apiUrl12 = 'http://localhost:8080/api/factures';
+  getRetours(): Observable<any[]> {
+    return this.http.get<any[]>(this.apiUrl9);
+  }
+
+  getContrts(): Observable<any[]> {
+    return this.http.get<any[]>(this.apiUrl10);
+  }
+  // Méthode pour envoyer la facture avec le montant
+  createFacture(contrat: any, frait:number ,montant: number,desc:string): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl12}/creersuplimentaire/${montant}/${frait}/${desc}`, contrat);
+  }
+
+  // Méthode pour ajouter un retour
+  ajouterRetour(id: number, etat: boolean): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl11}/creer/${id}/${etat}`, null);
+  }
 }
